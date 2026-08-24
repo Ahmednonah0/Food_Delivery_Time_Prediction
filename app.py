@@ -448,3 +448,460 @@ st.markdown("""
 Food Delivery Time Prediction • Developed by <b>Eng. Ahmed Adel</b>
 </div>
 """, unsafe_allow_html=True)
+st.markdown(
+    '<div class="section-title">🧍 Customer & Location</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    '<div class="section-sub">Customer and destination information</div>',
+    unsafe_allow_html=True
+)
+
+
+c1, c2, c3 = st.columns(3)
+
+
+with c1:
+
+    customer_age = st.number_input(
+        "Customer Age",
+        16,
+        100,
+        30
+    )
+
+
+with c2:
+
+    city = st.selectbox(
+        "City",
+        sorted(
+            df["city"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    )
+
+
+    delivery_area = st.selectbox(
+        "Delivery Area",
+        sorted(
+            df["delivery_area"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    )
+
+
+with c3:
+
+    distance_km = st.number_input(
+        "Distance (KM)",
+        0.1,
+        100.0,
+        5.0,
+        0.1
+    )
+
+
+
+st.markdown("<hr>", unsafe_allow_html=True)
+
+
+
+# Restaurant Section
+
+st.markdown(
+    '<div class="section-title">🍽️ Restaurant</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    '<div class="section-sub">Restaurant characteristics</div>',
+    unsafe_allow_html=True
+)
+
+
+
+r1, r2, r3 = st.columns(3)
+
+
+
+with r1:
+
+    restaurant_type = st.selectbox(
+        "Restaurant Type",
+        sorted(
+            df["restaurant_type"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    )
+
+
+    restaurant_primary_category = st.selectbox(
+        "Restaurant Category",
+        sorted(
+            df["restaurant_primary_category"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    )
+
+
+
+with r2:
+
+    restaurant_rating = st.number_input(
+        "Restaurant Rating",
+        1.0,
+        5.0,
+        4.2,
+        0.1
+    )
+
+
+
+with r3:
+
+    restaurant_preparation_time_minutes = st.number_input(
+        "Preparation Time (Minutes)",
+        1.0,
+        120.0,
+        20.0
+    )
+
+
+
+st.markdown("<hr>", unsafe_allow_html=True)
+
+
+
+# Order Details
+
+st.markdown(
+    '<div class="section-title">🧾 Order Details</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    '<div class="section-sub">Order information</div>',
+    unsafe_allow_html=True
+)
+
+
+
+items_count = st.number_input(
+    "Items Count",
+    1,
+    100,
+    3
+)
+
+
+
+st.markdown("<hr>", unsafe_allow_html=True)
+
+
+
+
+# Environment
+
+st.markdown(
+    '<div class="section-title">🌦️ Environment</div>',
+    unsafe_allow_html=True
+)
+
+
+st.markdown(
+    '<div class="section-sub">Time, weather, traffic and driver information</div>',
+    unsafe_allow_html=True
+)
+
+
+
+e1, e2, e3 = st.columns(3)
+
+
+
+with e1:
+
+    order_hour = st.slider(
+        "Order Hour",
+        0,
+        23,
+        18
+    )
+
+
+    day_of_week = st.selectbox(
+        "Day",
+        sorted(
+            df["day_of_week"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    )
+
+
+
+with e2:
+
+    weather = st.selectbox(
+        "Weather",
+        sorted(
+            df["weather"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    )
+
+
+    traffic_level = st.selectbox(
+        "Traffic Level",
+        sorted(
+            df["traffic_level"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    )
+
+
+
+with e3:
+
+    delivery_partner_experience_months = st.number_input(
+        "Driver Experience (Months)",
+        0,
+        300,
+        24
+    )
+
+
+    delivery_partner_rating = st.number_input(
+        "Driver Rating",
+        1.0,
+        5.0,
+        4.5,
+        0.1
+    )
+
+
+
+estimated_delivery_time_minutes = st.number_input(
+    "Platform Estimated Delivery Time",
+    1.0,
+    300.0,
+    35.0
+)
+
+
+
+is_weekend = 1 if day_of_week in [
+    "Friday",
+    "Saturday"
+] else 0
+# Prepare input data
+
+input_data = pd.DataFrame([{
+
+    "order_hour": order_hour,
+
+    "day_of_week": day_of_week,
+
+    "is_weekend": is_weekend,
+
+    "city": city,
+
+    "delivery_area": delivery_area,
+
+    "customer_age": customer_age,
+
+    "restaurant_type": restaurant_type,
+
+    "restaurant_primary_category": restaurant_primary_category,
+
+    "restaurant_rating": restaurant_rating,
+
+    "items_count": items_count,
+
+    "distance_km": distance_km,
+
+    "weather": weather,
+
+    "traffic_level": traffic_level,
+
+    "delivery_partner_experience_months":
+        delivery_partner_experience_months,
+
+    "delivery_partner_rating":
+        delivery_partner_rating,
+
+    "restaurant_preparation_time_minutes":
+        restaurant_preparation_time_minutes,
+
+    "estimated_delivery_time_minutes":
+        estimated_delivery_time_minutes
+
+}])
+
+
+
+st.write("")
+
+
+left, mid, right = st.columns(
+    [1.2, 1.5, 1.2]
+)
+
+
+
+with mid:
+
+    predict = st.button(
+        "Predict Delivery Time ✨",
+        use_container_width=True
+    )
+
+
+
+if predict:
+
+    try:
+
+        model = load_model()
+
+
+        prediction = float(
+            model.predict(input_data)[0]
+        )
+
+
+        low = max(
+            0,
+            prediction - 3
+        )
+
+
+        high = prediction + 3
+
+
+        status, icon = get_delivery_status(
+            prediction
+        )
+
+
+
+        st.markdown(
+        f"""
+
+<div class="result-card">
+
+
+<div style="
+color:#ffd4a6;
+font-size:12px;
+font-weight:900;
+letter-spacing:2px;
+">
+
+PREDICTED DELIVERY TIME
+
+</div>
+
+
+
+<div class="result-number">
+
+{prediction:.1f}
+
+</div>
+
+
+
+<div style="
+color:white;
+font-size:20px;
+font-weight:800;
+">
+
+Minutes
+
+</div>
+
+
+
+<div style="
+display:inline-block;
+margin-top:16px;
+padding:10px 18px;
+border-radius:999px;
+background:rgba(255,255,255,.07);
+border:1px solid rgba(255,255,255,.10);
+color:white;
+font-weight:800;
+">
+
+{icon} {status}
+
+</div>
+
+
+
+<div style="
+color:#9aa8b8;
+margin-top:14px;
+font-size:14px;
+">
+
+Expected Range:
+{low:.0f} - {high:.0f} Minutes
+
+</div>
+
+
+</div>
+
+""",
+        unsafe_allow_html=True
+        )
+
+
+
+    except Exception as e:
+
+        st.error(
+            f"Prediction Error: {e}"
+        )
+
+
+
+st.markdown(
+"""
+<div style="
+text-align:center;
+margin-top:60px;
+padding-top:25px;
+border-top:1px solid rgba(255,255,255,.06);
+color:#8090a0;
+font-size:12px;
+">
+
+Food Delivery Time Prediction • Developed by
+
+<b style="color:#ffb567;">
+Eng. Ahmed Adel
+</b>
+
+</div>
+""",
+unsafe_allow_html=True
+)
