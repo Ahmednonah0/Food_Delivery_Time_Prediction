@@ -360,22 +360,54 @@ st.markdown('<div class="section-sub">Basic customer and destination information
 
 c2, c3 = st.columns(2)
 
-  with c2:
-    city = st.selectbox(
-        "City",
-        ["City_A", "City_B", "City_C", "City_D"]
-    )
+  delivery_area = st.selectbox(
+    "Delivery Area",
+    [
+        "City_A_Area_1",
+        "City_A_Area_2",
+        "City_A_Area_3",
+        "City_A_Area_4",
+        "City_A_Area_5",
+        "City_A_Area_6",
+        "City_A_Area_7",
+        "City_A_Area_8",
+        "City_A_Area_9",
+        "City_A_Area_10",
 
-    delivery_area = st.selectbox(
-        "Delivery Area",
-        [
-            "Area_1",
-            "Area_2",
-            "Area_3",
-            "Area_4",
-            "Area_5"
-        ]
-    )
+        "City_B_Area_1",
+        "City_B_Area_2",
+        "City_B_Area_3",
+        "City_B_Area_4",
+        "City_B_Area_5",
+        "City_B_Area_6",
+        "City_B_Area_7",
+        "City_B_Area_8",
+        "City_B_Area_9",
+        "City_B_Area_10",
+
+        "City_C_Area_1",
+        "City_C_Area_2",
+        "City_C_Area_3",
+        "City_C_Area_4",
+        "City_C_Area_5",
+        "City_C_Area_6",
+        "City_C_Area_7",
+        "City_C_Area_8",
+        "City_C_Area_9",
+        "City_C_Area_10",
+
+        "City_D_Area_1",
+        "City_D_Area_2",
+        "City_D_Area_3",
+        "City_D_Area_4",
+        "City_D_Area_5",
+        "City_D_Area_6",
+        "City_D_Area_7",
+        "City_D_Area_8",
+        "City_D_Area_9",
+        "City_D_Area_10"
+    ]
+)
 
 with c3:
     distance_km = st.number_input("Distance (KM)", 0.1, 100.0, 5.0, 0.1)
