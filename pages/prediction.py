@@ -362,7 +362,16 @@ c2, c3 = st.columns(2)
 
 with c2:
     city = st.selectbox("City", ["City_A", "City_B", "City_C", "City_D"])
-    delivery_area = st.text_input("Delivery Area", "Area_1")
+     delivery_area = st.selectbox(
+    "Delivery Area",
+    [
+        "Area_1",
+        "Area_2",
+        "Area_3",
+        "Area_4",
+        "Area_5"
+    ]
+)
 
 with c3:
     distance_km = st.number_input("Distance (KM)", 0.1, 100.0, 5.0, 0.1)
