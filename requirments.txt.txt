@@ -2,7 +2,7 @@ streamlit
 pandas
 numpy
 joblib
-scikit-learn==1.7.2
+scikit-learn
 category-encoders
 xgboost
 plotly
