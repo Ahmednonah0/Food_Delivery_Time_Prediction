@@ -1,9 +1,7 @@
-streamlit
-pandas
+joblib==1.5.3
+pandas==3.0.5
+plotly==7.0.0
+streamlit==1.61.1
 numpy
-joblib
 scikit-learn==1.7.2
-category-encoders
-xgboost
-plotly
-
+category-encoders==2.10.0
