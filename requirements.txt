@@ -5,3 +5,4 @@ streamlit==1.61.1
 numpy
 scikit-learn==1.7.2
 category-encoders==2.10.0
+xgboost
